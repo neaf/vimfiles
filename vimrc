@@ -19,7 +19,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'gregsexton/gitv'
 Bundle 'extradite.vim'
 Bundle 'Gundo'
-Bundle 'rails.vim'
+Bundle 'tpope/vim-rails'
 
 filetype plugin indent on     " required! 
 
@@ -76,6 +76,10 @@ set nobackup
 " set directory=~/.vim/swap/
 set noswapfile
 
+" Current buffer in new tab
+nmap tt :tabedit %<CR>
+nmap td :tabclose<CR>
+
 " Insert New Line
 map <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
 map <Enter> o<ESC>
@@ -90,6 +94,12 @@ autocmd BufEnter,WinEnter * call indent_guides#enable()
 
 " Hard to type
 imap hh =>
+
+" Enable filetype settings
+filetype plugin indent on
+autocmd BufEnter *.erb set ft=eruby
+autocmd BufEnter *.jsonify set ft=ruby
+autocmd BufEnter *.rabl set ft=ruby
 
 " Plugins
 " =======
