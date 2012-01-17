@@ -20,7 +20,9 @@ Bundle 'gregsexton/gitv'
 Bundle 'extradite.vim'
 Bundle 'Gundo'
 Bundle 'tpope/vim-rails'
+Bundle 'kien/ctrlp.vim'
 
+filetype on
 filetype plugin indent on     " required! 
 
 " Persistent undo
@@ -38,6 +40,7 @@ set relativenumber
 set numberwidth=4
 
 " Scrollbars
+set scrolloff=4
 set sidescrolloff=4
 
 " Windows
@@ -105,7 +108,7 @@ autocmd BufEnter *.rabl set ft=ruby
 " =======
 
 " EasyMotion conflicts
-let g:EasyMotion_leader_key = "<Leader>m"
+let g:EasyMotion_leader_key = "<Leader><Leader>"
 
 " Toggle Gundo
 nnoremap <Leader>u :GundoToggle<CR>
