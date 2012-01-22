@@ -10,17 +10,18 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-fugitive'
-Bundle 'sjbach/lusty'
 Bundle 'scrooloose/nerdtree'
 Bundle 'gregsexton/gitv'
 Bundle 'extradite.vim'
 Bundle 'Gundo'
 Bundle 'tpope/vim-rails'
 Bundle 'kien/ctrlp.vim'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'majutsushi/tagbar'
+Bundle 'vim-scripts/localvimrc'
 
 filetype on
 filetype plugin indent on     " required! 
@@ -58,16 +59,12 @@ set colorcolumn=80
 set cursorline
 
 " Colors
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
+set background=dark
 syntax on " syntax highlighting
-let g:solarized_termcolors=16
 colorscheme solarized
 
 " Status line
+set laststatus=2
 set showcmd
 set ruler " Show ruler
 
@@ -106,6 +103,13 @@ autocmd BufEnter *.rabl set ft=ruby
 
 " Plugins
 " =======
+
+" Local vimrc
+let g:localvimrc_count = 1
+let g:localvimrc_ask = 0
+
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
 
 " EasyMotion conflicts
 let g:EasyMotion_leader_key = "<Leader><Leader>"
