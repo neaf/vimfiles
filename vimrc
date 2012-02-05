@@ -22,6 +22,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'majutsushi/tagbar'
 Bundle 'vim-scripts/localvimrc'
+Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 
 filetype on
 filetype plugin indent on     " required! 
@@ -61,7 +62,8 @@ set cursorline
 " Colors
 set background=dark
 syntax on " syntax highlighting
-colorscheme solarized
+" colorscheme solarized
+colorscheme desert
 
 " Status line
 set laststatus=2
