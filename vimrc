@@ -1,5 +1,6 @@
-set nocompatible
-filetype off
+set nocompatible      " We're running Vim, not Vi!
+set encoding=utf-8
+filetype off          " Make ftdetect work with Vundle
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -9,6 +10,13 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-surround'
+Bundle 'nono/vim-handlebars'
+Bundle 'ervandew/supertab'
+Bundle 'benmills/vimux'
+Bundle 'kana/vim-smartinput'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'altercation/vim-colors-solarized'
@@ -21,11 +29,36 @@ Bundle 'tpope/vim-rails'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'majutsushi/tagbar'
-Bundle 'vim-scripts/localvimrc'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
+Bundle 'mileszs/ack.vim'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'kchmck/vim-coffee-script'
 
-filetype on
-filetype plugin indent on     " required! 
+syntax on             " Enable syntax highlighting
+filetype indent on    " Enable filetype-specific indenting
+filetype plugin on    " Enable filetype-specific plugins
+compiler ruby         " Enable compiler support for ruby
+
+" !!!
+inoremap  <Up>     <NOP>
+inoremap  <Down>   <NOP>
+inoremap  <Left>   <NOP>
+inoremap  <Right>  <NOP>
+nnoremap   <Up>     <NOP>
+nnoremap   <Down>   <NOP>
+nnoremap   <Left>   <NOP>
+nnoremap   <Right>  <NOP>
+
+" Ex mode commands made easy
+nnoremap ; :
+
+" Sane regexes
+nnoremap / /\v
+vnoremap / /\v
+
+" Powerline
+let g:Powerline_symbols = 'compatible'
+
 
 " Persistent undo
 set undofile
@@ -42,12 +75,14 @@ set relativenumber
 set numberwidth=4
 
 " Scrollbars
-set scrolloff=4
-set sidescrolloff=4
+set scrolloff=6
+set sidescrolloff=6
 
 " Windows
 set equalalways " Multiple windows, when created, are equal in size
 set splitbelow splitright
+
+cnoreabbrev W w
 
 " Vertical and horizontal split then hop to a new buffer
 noremap <Leader>v :vsp^M^W^W<cr>
@@ -61,9 +96,7 @@ set cursorline
 
 " Colors
 set background=dark
-syntax on " syntax highlighting
-" colorscheme solarized
-colorscheme desert
+colorscheme smyck
 
 " Status line
 set laststatus=2
@@ -79,8 +112,11 @@ set nobackup
 set noswapfile
 
 " Current buffer in new tab
-nmap tt :tabedit %<CR>
-nmap td :tabclose<CR>
+nmap <Leader>tn :tabnew<CR>
+nmap <Leader>tt :tabedit %<CR>
+nmap <Leader>t> :tabnext<CR>
+nmap <Leader>t< :tabprevious<CR>
+nmap <Leader>td :tabclose<CR>
 
 " Insert New Line
 map <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
@@ -98,7 +134,6 @@ autocmd BufEnter,WinEnter * call indent_guides#enable()
 imap hh =>
 
 " Enable filetype settings
-filetype plugin indent on
 autocmd BufEnter *.erb set ft=eruby
 autocmd BufEnter *.jsonify set ft=ruby
 autocmd BufEnter *.rabl set ft=ruby
@@ -106,11 +141,15 @@ autocmd BufEnter *.rabl set ft=ruby
 " Plugins
 " =======
 
+" Ctrl-P
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.git,*.pyc
+
 " Local vimrc
 let g:localvimrc_count = 1
 let g:localvimrc_ask = 0
 
 " Tagbar
+let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
 nmap <F8> :TagbarToggle<CR>
 
 " EasyMotion conflicts
@@ -121,3 +160,23 @@ nnoremap <Leader>u :GundoToggle<CR>
 
 " Toggle NerdTree
 noremap <Leader>d :NERDTreeToggle<CR>
+
+" Vimux
+
+" Run the current file with rspec
+map <Leader>rb :call RunVimTmuxCommand("clear; rspec " . bufname("%"))<CR>
+
+" Prompt for a command to run
+map <Leader>rp :PromptVimTmuxCommand<CR>
+
+" Run last command executed by RunVimTmuxCommand
+map <Leader>rl :RunLastVimTmuxCommand<CR>
+
+" Inspect runner pane
+map <Leader>ri :InspectVimTmuxRunner<CR>
+
+" Close all other tmux panes in current window
+map <Leader>rx :CloseVimTmuxPanes<CR>
+
+" Interrupt any command running in the runner pane
+map <Leader>rs :InterruptVimTmuxRunner<CR>
