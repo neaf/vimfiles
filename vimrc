@@ -16,10 +16,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'nono/vim-handlebars'
 Bundle 'ervandew/supertab'
 Bundle 'benmills/vimux'
-Bundle 'kana/vim-smartinput'
-Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/nerdtree'
 Bundle 'gregsexton/gitv'
@@ -118,6 +115,9 @@ nmap <Leader>t> :tabnext<CR>
 nmap <Leader>t< :tabprevious<CR>
 nmap <Leader>td :tabclose<CR>
 
+" Underline
+nmap <Leader><Leader>d :t.<CR>
+
 " Insert New Line
 map <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
 map <Enter> o<ESC>
@@ -126,12 +126,21 @@ map <Enter> o<ESC>
 map <S-Leader>h set nohlsearch
 
 " Invisible characters
-" set list listchars=tab:»·,trail:·
-" noremap <Leader>i :set list!<CR> " Toggle invisible chars
-autocmd BufEnter,WinEnter * call indent_guides#enable()
+set list listchars=tab:»·,trail:·
+noremap <Leader>i :set list!<CR> " Toggle invisible chars
 
 " Hard to type
 imap hh =>
+
+" Tools
+cmap w!! %!sudo tee > /dev/null %
+
+" Toggle paste mode
+nmap <silent> <F4> :set invpaste<CR>:set paste?<CR>
+imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
+
+" Swap two words
+nmap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
 
 " Enable filetype settings
 autocmd BufEnter *.erb set ft=eruby
