@@ -1,4 +1,6 @@
 set nocompatible      " We're running Vim, not Vi!
+
+
 set encoding=utf-8
 filetype off          " Make ftdetect work with Vundle
 
@@ -6,10 +8,16 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
+Bundle 'matchit.zip'
+Bundle 'ruby-matchit'
+Bundle 'michaeljsmith/vim-indent-object'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'othree/eregex.vim'
+Bundle 'bingaman/vim-sparkup'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-surround'
@@ -17,8 +25,8 @@ Bundle 'nono/vim-handlebars'
 Bundle 'ervandew/supertab'
 Bundle 'benmills/vimux'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-fugitive'
 Bundle 'gregsexton/gitv'
 Bundle 'extradite.vim'
 Bundle 'Gundo'
@@ -26,7 +34,6 @@ Bundle 'tpope/vim-rails'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'majutsushi/tagbar'
-Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 Bundle 'mileszs/ack.vim'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'kchmck/vim-coffee-script'
@@ -41,10 +48,10 @@ inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
 inoremap  <Left>   <NOP>
 inoremap  <Right>  <NOP>
-nnoremap   <Up>     <NOP>
-nnoremap   <Down>   <NOP>
-nnoremap   <Left>   <NOP>
-nnoremap   <Right>  <NOP>
+nnoremap  <Up>     <NOP>
+nnoremap  <Down>   <NOP>
+nnoremap  <Left>   <NOP>
+nnoremap  <Right>  <NOP>
 
 " Ex mode commands made easy
 nnoremap ; :
@@ -56,6 +63,8 @@ vnoremap / /\v
 " Powerline
 let g:Powerline_symbols = 'compatible'
 
+" Gstatus/Gcommit
+set previewheight=30
 
 " Persistent undo
 set undofile
@@ -64,11 +73,14 @@ set undodir=~/.vim/undo
 " Main settings
 let mapleader = "\\"
 
+" Disable folds
+set nofoldenable
+
 " Hide buffers with changes
 set hidden
 
 " Numbers
-set relativenumber
+set number
 set numberwidth=4
 
 " Scrollbars
@@ -126,8 +138,13 @@ map <Enter> o<ESC>
 map <S-Leader>h set nohlsearch
 
 " Invisible characters
-set list listchars=tab:»·,trail:·
-noremap <Leader>i :set list!<CR> " Toggle invisible chars
+set listchars=tab:»·,trail:·
+set list
+" let g:indent_guides_start_level = 2
+" let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 0
+hi IndentGuidesOdd  ctermbg=235
+hi IndentGuidesEven ctermbg=236
 
 " Hard to type
 imap hh =>
@@ -142,20 +159,63 @@ imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
 " Swap two words
 nmap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
 
+" Replace array alignment
+vmap <silent> <Leader>ra :s/[^\s].\zs\s\+\ze/ /g
+
+nmap <Leader>ls mm?{Vy`mpkddf{C
+
 " Enable filetype settings
 autocmd BufEnter *.erb set ft=eruby
 autocmd BufEnter *.jsonify set ft=ruby
 autocmd BufEnter *.rabl set ft=ruby
 
+" Maps
+map <C-s> <esc>:w<CR>
+imap <C-s> <esc>:w<CR>
+map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+
+" Use Ack instead of grep
+set grepprg=ack
+
+" Disable Ex mode
+map Q <Nop>
+
+" Disable K looking stuff up
+map K <Nop>
+
+" Let's be reasonable, shall we?
+nmap k gk
+nmap j gj
+
+" Enter insert mode automatically when editing git commit messages
+" au FileType gitcommit startinsert
+
+" Highlight bad whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+fun! StripTrailingWhitespaces()
+	let l = line(".")
+	let c = col(".")
+	let _s=@/
+	%s/\s\+$//e
+	let @/=_s
+	nohl
+	call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call StripTrailingWhitespaces()
+
+
 " Plugins
 " =======
 
+" eregex
+nnoremap / :M/
+nnoremap ,/ /
+
 " Ctrl-P
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.git,*.pyc
-
-" Local vimrc
-let g:localvimrc_count = 1
-let g:localvimrc_ask = 0
 
 " Tagbar
 let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
