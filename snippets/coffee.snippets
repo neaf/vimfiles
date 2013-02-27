@@ -1,0 +1,33 @@
+snippet vinit
+initialize: (options) ->
+  $0
+endsnippet
+
+snippet vopt
+@${1:option} = options.$1
+endsnippet
+
+snippet popt
+${1:option}: @$1
+endsnippet
+
+snippet ac
+class App.Controllers.${1} extends Agility.Controller
+  $0
+endsnippet
+
+snippet av
+class App.Views.${1} extends Agility.View
+  $0
+endsnippet
+
+snippet acol
+class App.Collections.${1} extends Agility.Collection
+  model: ${2}
+  $0
+endsnippet
+
+snippet am
+class App.Models.${1} extends Agility.Model
+  $0
+endsnippet

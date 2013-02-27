@@ -1,64 +1,77 @@
 set nocompatible      " We're running Vim, not Vi!
 
+" ----------------------------------------------------------------------------
+"  Vundle setup
+" ----------------------------------------------------------------------------
+filetype off 			" Required for Vundle
 
-set encoding=utf-8
-filetype off          " Make ftdetect work with Vundle
-
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/vundle/	" Add vundle to the RuntimePath
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
+" Let Vundle manage Vundle. Required!
 Bundle 'gmarik/vundle'
 
-" My Bundles here:
-Bundle 'matchit.zip'
-Bundle 'ruby-matchit'
-Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'othree/eregex.vim'
-Bundle 'bingaman/vim-sparkup'
-Bundle 'tpope/vim-repeat'
+" Language-specific syntax files
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'elzr/vim-json'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-git'
+
+" Comment plugin
 Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-surround'
-Bundle 'nono/vim-handlebars'
-Bundle 'ervandew/supertab'
-Bundle 'benmills/vimux'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'scrooloose/nerdtree'
+
+" Syntax check on buffer save
+Bundle 'scrooloose/syntastic'
+
+" Git plugins
 Bundle 'tpope/vim-fugitive'
 Bundle 'gregsexton/gitv'
-Bundle 'extradite.vim'
+
+" Lightweight support for Ruby's Bundler
+Bundle 'tpope/vim-bundler'
+
+" Various editing plugins
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'nelstrom/vim-visual-star-search'
+Bundle 'ZoomWin'
+Bundle 'tpope/vim-endwise'
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'Gundo'
-Bundle 'tpope/vim-rails'
+
+" File managers/explorers
+Bundle 'scrooloose/nerdtree'
 Bundle 'kien/ctrlp.vim'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'kchmck/vim-coffee-script'
+Bundle 'sandeepcr529/Buffet.vim'
+
+" Colorschemes
+Bundle 'altercation/vim-colors-solarized'
+
+" Other
+Bundle 'Lokaltog/vim-powerline'
 
 syntax on             " Enable syntax highlighting
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 compiler ruby         " Enable compiler support for ruby
 
-" !!!
-inoremap  <Up>     <NOP>
-inoremap  <Down>   <NOP>
-inoremap  <Left>   <NOP>
-inoremap  <Right>  <NOP>
-nnoremap  <Up>     <NOP>
-nnoremap  <Down>   <NOP>
-nnoremap  <Left>   <NOP>
-nnoremap  <Right>  <NOP>
+" ----------------------------------------------------------------------------
+"  moving around, searching and patterns
+" ----------------------------------------------------------------------------
+set nostartofline     " keep cursor in same column for long-range motion cmds
+set incsearch         " Highlight pattern matches as you type
+set ignorecase        " ignore case when using a search pattern
+set smartcase         " override 'ignorecase' when pattern
+                      " has upper case character
 
-" Ex mode commands made easy
-nnoremap ; :
+" Main settings
+let mapleader = "\<SPACE>"
 
-" Sane regexes
-nnoremap / /\v
-vnoremap / /\v
+nmap <leader><leader> <C-^>
+nmap <leader>w :w<CR>
 
 " Powerline
 let g:Powerline_symbols = 'compatible'
@@ -69,9 +82,6 @@ set previewheight=30
 " Persistent undo
 set undofile
 set undodir=~/.vim/undo
-
-" Main settings
-let mapleader = "\\"
 
 " Disable folds
 set nofoldenable
@@ -91,11 +101,13 @@ set sidescrolloff=6
 set equalalways " Multiple windows, when created, are equal in size
 set splitbelow splitright
 
-cnoreabbrev W w
-
 " Vertical and horizontal split then hop to a new buffer
-noremap <Leader>v :vsp^M^W^W<cr>
-noremap <Leader>h :split^M^W^W<cr>
+nmap <silent> <C-h> :wincmd h<CR>
+nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-l> :wincmd l<CR>
+
+let g:ackprg="ack -a -H --nocolor --nogroup --column"
 
 " Show margin
 set colorcolumn=80
@@ -105,7 +117,7 @@ set cursorline
 
 " Colors
 set background=dark
-colorscheme smyck
+colorscheme solarized
 
 " Status line
 set laststatus=2
@@ -120,31 +132,9 @@ set nobackup
 " set directory=~/.vim/swap/
 set noswapfile
 
-" Current buffer in new tab
-nmap <Leader>tn :tabnew<CR>
-nmap <Leader>tt :tabedit %<CR>
-nmap <Leader>t> :tabnext<CR>
-nmap <Leader>t< :tabprevious<CR>
-nmap <Leader>td :tabclose<CR>
-
-" Underline
-nmap <Leader><Leader>d :t.<CR>
-
-" Insert New Line
-map <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
-map <Enter> o<ESC>
-
-" Remove search highlight
-map <S-Leader>h set nohlsearch
-
 " Invisible characters
 set listchars=tab:»·,trail:·
 set list
-" let g:indent_guides_start_level = 2
-" let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 0
-hi IndentGuidesOdd  ctermbg=235
-hi IndentGuidesEven ctermbg=236
 
 " Hard to type
 imap hh =>
@@ -159,20 +149,10 @@ imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
 " Swap two words
 nmap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
 
-" Replace array alignment
-vmap <silent> <Leader>ra :s/[^\s].\zs\s\+\ze/ /g
-
-nmap <Leader>ls mm?{Vy`mpkddf{C
-
 " Enable filetype settings
 autocmd BufEnter *.erb set ft=eruby
 autocmd BufEnter *.jsonify set ft=ruby
 autocmd BufEnter *.rabl set ft=ruby
-
-" Maps
-map <C-s> <esc>:w<CR>
-imap <C-s> <esc>:w<CR>
-map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
 
 " Use Ack instead of grep
 set grepprg=ack
@@ -182,10 +162,6 @@ map Q <Nop>
 
 " Disable K looking stuff up
 map K <Nop>
-
-" Let's be reasonable, shall we?
-nmap k gk
-nmap j gj
 
 " Enter insert mode automatically when editing git commit messages
 " au FileType gitcommit startinsert
@@ -209,43 +185,24 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 " Plugins
 " =======
+nmap <leader>b :Bufferlist<CR>
 
-" eregex
-nnoremap / :M/
-nnoremap ,/ /
+let g:yankstack_map_keys = 0
+nmap <C-P> <Plug>yankstack_substitute_older_paste
+nmap <C-p> <Plug>yankstack_substitute_newer_paste
+
+let g:ctrlp_map = '<leader>f'
 
 " Ctrl-P
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.git,*.pyc
-
-" Tagbar
-let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-nmap <F8> :TagbarToggle<CR>
-
-" EasyMotion conflicts
-let g:EasyMotion_leader_key = "<Leader><Leader>"
+let g:ctrlp_custom_ignore = 'build/\|\.agility-shared\|.git'
 
 " Toggle Gundo
 nnoremap <Leader>u :GundoToggle<CR>
 
 " Toggle NerdTree
+let g:ycm_key_detailed_diagnostics = "<leader>6"
+
 noremap <Leader>d :NERDTreeToggle<CR>
 
-" Vimux
 
-" Run the current file with rspec
-map <Leader>rb :call RunVimTmuxCommand("clear; rspec " . bufname("%"))<CR>
-
-" Prompt for a command to run
-map <Leader>rp :PromptVimTmuxCommand<CR>
-
-" Run last command executed by RunVimTmuxCommand
-map <Leader>rl :RunLastVimTmuxCommand<CR>
-
-" Inspect runner pane
-map <Leader>ri :InspectVimTmuxRunner<CR>
-
-" Close all other tmux panes in current window
-map <Leader>rx :CloseVimTmuxPanes<CR>
-
-" Interrupt any command running in the runner pane
-map <Leader>rs :InterruptVimTmuxRunner<CR>
