@@ -40,6 +40,8 @@ Bundle 'ZoomWin'
 Bundle 'tpope/vim-endwise'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'Gundo'
+Bundle 'maxbrunsfeld/vim-yankstack'
+Bundle 'juvenn/mustache.vim'
 
 " File managers/explorers
 Bundle 'scrooloose/nerdtree'
@@ -52,6 +54,9 @@ Bundle 'altercation/vim-colors-solarized'
 
 " Other
 Bundle 'Lokaltog/vim-powerline'
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/vimshell'
+Bundle 'Shougo/unite.vim'
 
 syntax on             " Enable syntax highlighting
 filetype indent on    " Enable filetype-specific indenting
@@ -146,6 +151,11 @@ cmap w!! %!sudo tee > /dev/null %
 nmap <silent> <F4> :set invpaste<CR>:set paste?<CR>
 imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
 
+nmap <leader>y "*y
+nmap <leader>p "*p
+vmap <leader>y "*y
+vmap <leader>p "*p
+
 " Swap two words
 nmap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
 
@@ -167,8 +177,8 @@ map K <Nop>
 " au FileType gitcommit startinsert
 
 " Highlight bad whitespace
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
+" highlight ExtraWhitespace ctermbg=red guibg=red
+" match ExtraWhitespace /\s\+$/
 
 fun! StripTrailingWhitespaces()
 	let l = line(".")
@@ -188,8 +198,8 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 nmap <leader>b :Bufferlist<CR>
 
 let g:yankstack_map_keys = 0
-nmap <C-P> <Plug>yankstack_substitute_older_paste
-nmap <C-p> <Plug>yankstack_substitute_newer_paste
+nmap <C-p> <Plug>yankstack_substitute_older_paste
+nmap <C-P> <Plug>yankstack_substitute_newer_paste
 
 let g:ctrlp_map = '<leader>f'
 
@@ -206,3 +216,8 @@ let g:ycm_key_detailed_diagnostics = "<leader>6"
 noremap <Leader>d :NERDTreeToggle<CR>
 
 
+" VimShell
+
+let g:vimshell_editor_command = "mvim"
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~") '
+let g:vimshell_prompt =  '$ '
