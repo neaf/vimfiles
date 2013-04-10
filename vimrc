@@ -35,13 +35,12 @@ Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'nelstrom/vim-visual-star-search'
-Bundle 'ZoomWin'
 Bundle 'tpope/vim-endwise'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'Gundo'
 Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'juvenn/mustache.vim'
+Bundle 'jgdavey/vim-blockle'
 
 " File managers/explorers
 Bundle 'scrooloose/nerdtree'
@@ -54,9 +53,6 @@ Bundle 'altercation/vim-colors-solarized'
 
 " Other
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/unite.vim'
 
 syntax on             " Enable syntax highlighting
 filetype indent on    " Enable filetype-specific indenting
